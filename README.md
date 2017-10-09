@@ -23,17 +23,17 @@
  app:interval default 2000mi
  
  ### 2.load data
-  forever_vp.setAdapter(parameter)
-  parameter:
-  1.int[] resList
-  2.String[] urlList , int resHolder , int resError
-  3.List<View> viewList
+forever_vp.setAdapter(parameter)
+#### parameter:
+##### 1.int[] resList
+##### 2.String[] urlList , int resHolder , int resError
+##### 3.List<View> viewList
   
  ### 3.other:
-     1.Carousel start
-        forever_vp.start()
-     1.Carousel stop
-        forever_vp.stop()
+####1.Carousel start
+##### forever_vp.start()
+####2.Carousel stop
+##### forever_vp.stop()
  
- If you need to connect network,pleace add the permissions in AndroidManifest.xml:
-     <uses-permission android:name="android.permission.INTERNET"/>
+### If you need to connect network,pleace add the permissions in AndroidManifest.xml:
+    <uses-permission android:name="android.permission.INTERNET"/>
