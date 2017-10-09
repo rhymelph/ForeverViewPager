@@ -82,6 +82,7 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
      */
     private void initdot(int count) {
         if (dot_visible) {
+            radio_group.removeAllViews();
             total = count;
             for (int i = 0; i < total; i++) {
                 View view = new View(context);
@@ -143,6 +144,7 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
      */
     private void Carousel() {
         if (carousel) {
+            handler.removeMessages(0);
             handler.sendEmptyMessageDelayed(0, interval);
         }
     }
