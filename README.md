@@ -12,28 +12,28 @@
         app:interval="3000"
         />
 #### 1.Do dot dots display? 
-  app:dot_visible default true
+    app:dot_visible default true
 #### 2.Carousel?
- app:carousel default true
+    app:carousel default true
 #### 3.Dot normal form?
- app:dot_normal defalut Black dot
+    app:dot_normal defalut Black dot
 #### 4.Dot select form?
- app:dot_select defalut While dot
+    app:dot_select defalut While dot
 #### 5.Carousel interval?
- app:interval default 2000mi
+    app:interval default 2000mi
  
  ### 2.load data
-forever_vp.setAdapter(parameter)
+    forever_vp.setAdapter(parameter)
 #### parameter:
 ##### 1.int[] resList
 ##### 2.String[] urlList , int resHolder , int resError
 ##### 3.List<View> viewList
   
  ### 3.other:
-####1.Carousel start
-##### forever_vp.start()
-####2.Carousel stop
-##### forever_vp.stop()
+#### 1.Carousel start
+    forever_vp.start()
+#### 2.Carousel stop
+    forever_vp.stop()
  
 ### If you need to connect network,pleace add the permissions in AndroidManifest.xml:
     <uses-permission android:name="android.permission.INTERNET"/>
