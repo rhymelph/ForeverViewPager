@@ -1,6 +1,19 @@
 # ForeverViewPager[![](https://jitpack.io/v/rhylme/ForeverViewPager.svg)](https://jitpack.io/#rhylme/ForeverViewPager)
 ## How to use
-### 1.xml
+### 1.gradle
+#### Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+    allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+#### Step 2. Add the dependency
+    dependencies {
+	        compile 'com.github.rhylme:ForeverViewPager:1.11'
+	}
+### 2.xml
     <com.rhyme.foreverviewpager.ForeverViewPager
         android:id="@+id/forever_vp"
         android:layout_width="match_parent"
@@ -35,5 +48,5 @@
 #### 2.Carousel stop
     forever_vp.stop()
  
-### If you need to connect network,pleace add the permissions in AndroidManifest.xml:
+ ### If you need to connect network,pleace add the permissions in AndroidManifest.xml:
     <uses-permission android:name="android.permission.INTERNET"/>
