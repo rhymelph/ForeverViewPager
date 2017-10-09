@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.IntegerRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,6 +27,11 @@ import java.util.List;
 
 public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPageChangeListener {
     private static final String TAG = "ForeverViewPager";
+    private static final int ALIGN_LEFT=1;
+    private static final int ALIGN_RIGHT=2;
+    private static final int ALIGN_CENTER=3;
+    private int align=3;
+    private float dot_size=50;
     private ViewPager view_pager;
     private LinearLayout radio_group;
     private boolean dot_visible = true;
@@ -57,12 +63,11 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         carousel = a.getBoolean(R.styleable.ForeverViewPager_carousel, true);
         int dot_select = a.getResourceId(R.styleable.ForeverViewPager_dot_select, R.drawable.ic_fiber_while);
         int dot_normal = a.getResourceId(R.styleable.ForeverViewPager_dot_normal, R.drawable.ic_fiber_black);
-        interval = a.getInteger(R.styleable.ForeverViewPager_interval, 2000);
-
+        align=a.getInt(R.styleable.ForeverViewPager_dot_align,ALIGN_CENTER);
+        interval =  a.getInt(R.styleable.ForeverViewPager_interval, 2000);
+        dot_size=a.getDimension(R.styleable.ForeverViewPager_dot_size,50);
         dot_sel = context.getResources().getDrawable(dot_select);
-        dot_sel.setBounds(0, 0, 50, 50);
         dot_nor = context.getResources().getDrawable(dot_normal);
-        dot_nor.setBounds(0, 0, 50, 50);
         a.recycle();
         initView(context);
     }
@@ -75,6 +80,17 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         addView(view);
         view_pager.addOnPageChangeListener(this);
+        switch (align){
+            case ALIGN_CENTER:
+                radio_group.setGravity(Gravity.CENTER);
+                break;
+            case ALIGN_LEFT:
+                radio_group.setGravity(Gravity.LEFT);
+                break;
+            case ALIGN_RIGHT:
+                radio_group.setGravity(Gravity.RIGHT);
+                break;
+        }
     }
 
     /**
@@ -92,7 +108,7 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
                 } else {
                     view.setBackgroundDrawable(dot_nor);
                 }
-                view.setLayoutParams(new ViewGroup.LayoutParams(dot_nor.getMinimumWidth(), dot_nor.getMinimumHeight()));
+                view.setLayoutParams(new ViewGroup.LayoutParams((int) dot_size, (int)dot_size));
                 radio_group.addView(view);
             }
         }

@@ -5,10 +5,19 @@
         <attr name="dot_select" format="reference"/>
         <!--小圆点未选中的形态 默认黑色点-->
         <attr name="dot_normal" format="reference"/>
+        <!--小圆点大小-->
+        <attr name="dot_size" format="dimension"/>
+
+        <!--小圆点位置-->
+        <attr name="dot_align" format="enum">
+            <enum name="left" value="1" />
+            <enum name="right" value="2"/>
+            <enum name="center" value="3"/>
+        </attr>
         <!--是否显示小圆点 默认显示-->
         <attr name="dot_visible" format="boolean"/>
         <!--轮播时间 默认2000毫秒-->
-        <attr name="interval" format="float"/>
+        <attr name="interval" format="integer"/>
         <!--是否轮播 默认轮播-->
         <attr name="carousel" format="boolean"/>
     </declare-styleable>
