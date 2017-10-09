@@ -11,7 +11,7 @@
 	}
 #### Step 2. Add the dependency
     dependencies {
-	        compile 'com.github.rhylme:ForeverViewPager:1.11'
+	        compile 'com.github.rhylme:ForeverViewPager:1.12'
 	}
 ### 2.xml
     <com.rhyme.foreverviewpager.ForeverViewPager
