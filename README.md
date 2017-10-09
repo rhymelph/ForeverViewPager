@@ -11,15 +11,15 @@
         app:dot_select="@drawable/ic_fiber_while"
         app:interval="3000"
         />
- 1.Do dot dots display? 
+#### 1.Do dot dots display? 
   app:dot_visible default true
- 2.Carousel?
+#### 2.Carousel?
  app:carousel default true
- 3.Dot normal form?
+#### 3.Dot normal form?
  app:dot_normal defalut Black dot
- 4.Dot select form?
+#### 4.Dot select form?
  app:dot_select defalut While dot
- 5.Carousel interval?
+#### 5.Carousel interval?
  app:interval default 2000mi
  
  ### 2.load data
