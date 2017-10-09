@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ForeverViewPager">
+        <!--小圆点选中的形态 默认白色点-->
+        <attr name="dot_select" format="reference"/>
+        <!--小圆点未选中的形态 默认黑色点-->
+        <attr name="dot_normal" format="reference"/>
+        <!--是否显示小圆点 默认显示-->
+        <attr name="dot_visible" format="boolean"/>
+        <!--轮播时间 默认2000毫秒-->
+        <attr name="interval" format="float"/>
+        <!--是否轮播 默认轮播-->
+        <attr name="carousel" format="boolean"/>
+    </declare-styleable>
+</resources>
