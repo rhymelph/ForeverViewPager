@@ -12,7 +12,7 @@
 	}
 #### Step 2. Add the dependency
     dependencies {
-	        compile 'com.github.rhylme:ForeverViewPager:1.12'
+	        compile 'com.github.rhylme:ForeverViewPager:1.13'
 	}
 ### 2.xml
     <com.rhyme.foreverviewpager.ForeverViewPager
@@ -48,7 +48,9 @@
 #### parameter:
 ##### 1.int[] resList
 ##### 2.String[] urlList , int resHolder , int resError
-##### 3.List<View> viewList
+##### 3.Object[] objectList , int resHolder , int resError
+###### support: res , file , url , bitmap ,drawable
+##### 4.List<View> viewList
   
  ### 3.other:
 #### 1.Carousel start
@@ -56,5 +58,16 @@
 #### 2.Carousel stop
     forever_vp.stop()
  
- ### If you need to connect network,pleace add the permissions in AndroidManifest.xml:
+ ### If you need to connect network,please add the permission in AndroidManifest.xml:
     <uses-permission android:name="android.permission.INTERNET"/>
+ ### If you need to read and write storege,please add the permission in AndroidManifest.xml:
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    //if os version >=6.0 Add the following code to where you want to use it
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+    //request permission ,override onRequestPermissionsResult() Complete related operations
+                }else {
+    //to do
+                }
