@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -121,7 +122,6 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         if (list == null || list.length == 0) {
             return;
         }
-        view_pager.setOffscreenPageLimit(list.length);
 
         initdot(list.length);
 
@@ -132,10 +132,10 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
             Object lastView = list[list.length - 1];
 
             urls.add(lastView);
-            for (int i = 0; i < list.length; i++) {
-                urls.add(list[i]);
-            }
+            Collections.addAll(urls, list);
             urls.add(firstView);
+
+            view_pager.setOffscreenPageLimit(urls.size());
 
             view_pager.setAdapter(new NetOrLocalPagerAdapter(context, urls.toArray(new Object[urls.size()]), resHolder, resError));
             view_pager.setCurrentItem(1);
@@ -193,8 +193,6 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         if (urlList == null || urlList.length == 0) {
             return;
         }
-        view_pager.setOffscreenPageLimit(urlList.length);
-
         initdot(urlList.length);
 
         List<String> urls = new ArrayList<>();
@@ -204,10 +202,10 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
             String lastView = urlList[urlList.length - 1];
 
             urls.add(lastView);
-            for (int i = 0; i < urlList.length; i++) {
-                urls.add(urlList[i]);
-            }
+            Collections.addAll(urls, urlList);
             urls.add(firstView);
+
+            view_pager.setOffscreenPageLimit(urls.size());
 
             view_pager.setAdapter(new NetWorkPagerAdapter(context, urls.toArray(new String[urls.size()]), placeholder, errorholder));
             view_pager.setCurrentItem(1);
@@ -225,7 +223,6 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         if (intList == null || intList.length == 0) {
             return;
         }
-        view_pager.setOffscreenPageLimit(intList.length);
 
         initdot(intList.length);
 
@@ -236,17 +233,19 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
             int lastView = intList[intList.length - 1];
 
             urls.add(lastView);
-            for (int i = 0; i < intList.length; i++) {
-                urls.add(intList[i]);
+            for (int anIntList : intList) {
+                urls.add(anIntList);
             }
             urls.add(firstView);
+
+            view_pager.setOffscreenPageLimit(urls.size());
 
             view_pager.setAdapter(new LocalPagerAdapter(context, urls.toArray(new Integer[urls.size()])));
             view_pager.setCurrentItem(1);
             Carousel();
         } else {
-            for (int i = 0; i < intList.length; i++) {
-                urls.add(intList[i]);
+            for (int anIntList : intList) {
+                urls.add(anIntList);
             }
             view_pager.setAdapter(new LocalPagerAdapter(context, urls.toArray(new Integer[urls.size()])));
         }
