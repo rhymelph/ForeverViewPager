@@ -13,14 +13,14 @@ public class ForeverCache {
     /**
      * 新建一个缓存
      */
-    public void initCache(Context context, int appVersion) {
+    public static void initCache(Context context, int appVersion) {
         DiskLruCacheHelper.openCache(context, appVersion, LOCAL_CACHE_SIZE_LIMIT);
     }
 
     /**
      * 自己应用缓存
      */
-    public void initCache(DiskLruCache diskLruCache) {
+    public static void initCache(DiskLruCache diskLruCache) {
         DiskLruCacheHelper.openCache(diskLruCache);
     }
 
