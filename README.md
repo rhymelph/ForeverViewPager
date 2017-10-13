@@ -10,9 +10,9 @@
 			maven { url 'https://jitpack.io' }
 		}
 	}
-#### Step 2. Add the dependency
+#### Step 2. Add the dependency last version:[![](https://jitpack.io/v/rhylme/ForeverViewPager.svg)](https://jitpack.io/#rhylme/ForeverViewPager)
     dependencies {
-	        compile 'com.github.rhylme:ForeverViewPager:1.13'
+	        compile 'com.github.rhylme:ForeverViewPager:LastVersion'
 	}
 ### 2.xml
     <com.rhyme.foreverviewpager.ForeverViewPager
