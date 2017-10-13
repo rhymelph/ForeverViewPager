@@ -98,9 +98,9 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
      * 载入小圆点
      */
     private void initdot(int count) {
+        total = count;
         if (dot_visible) {
             radio_group.removeAllViews();
-            total = count;
             for (int i = 0; i < total; i++) {
                 View view = new View(context);
                 view.setId(R.id.rhy_rgroup + 1 + i);
