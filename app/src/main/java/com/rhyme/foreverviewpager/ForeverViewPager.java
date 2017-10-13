@@ -258,12 +258,18 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
             if (total > 1) {
                 if (position == 0) {
                     view_pager.setCurrentItem(total, false);
-                    radio_group.getChildAt(total - 1).setBackgroundDrawable(dot_sel);
+                    if (radio_group.getChildCount()!=0){
+                        radio_group.getChildAt(total - 1).setBackgroundDrawable(dot_sel);
+                    }
                 } else if (position == total + 1) {
                     view_pager.setCurrentItem(1, false);
-                    radio_group.getChildAt(0).setBackgroundDrawable(dot_sel);
+                    if (radio_group.getChildCount()!=0) {
+                        radio_group.getChildAt(0).setBackgroundDrawable(dot_sel);
+                    }
                 } else {
-                    radio_group.getChildAt(position - 1).setBackgroundDrawable(dot_sel);
+                    if (radio_group.getChildCount()!=0) {
+                        radio_group.getChildAt(position - 1).setBackgroundDrawable(dot_sel);
+                    }
                 }
             }
         }

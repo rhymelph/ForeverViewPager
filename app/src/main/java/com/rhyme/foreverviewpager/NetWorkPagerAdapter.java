@@ -77,14 +77,22 @@ public class NetWorkPagerAdapter extends PagerAdapter{
             if (isCancelled()){
                 return null;
             }
-            try {
-                HttpURLConnection connection = (HttpURLConnection) new URL(strings[0]).openConnection();
-                connection.setRequestMethod("GET");
-                connection.setReadTimeout(8000);
-                connection.setConnectTimeout(8000);
-                return BitmapFactory.decodeStream(connection.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (DiskLruCacheHelper.load(strings[0])==null){
+                try {
+                    HttpURLConnection connection = (HttpURLConnection) new URL(strings[0]).openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setReadTimeout(8000);
+                    connection.setConnectTimeout(8000);
+                    Bitmap bitmap=BitmapFactory.decodeStream(connection.getInputStream());
+                    if (bitmap!=null){
+                        DiskLruCacheHelper.dump(bitmap,strings[0]);
+                    }
+                    return bitmap;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                return DiskLruCacheHelper.load(strings[0]);
             }
             return null;
         }

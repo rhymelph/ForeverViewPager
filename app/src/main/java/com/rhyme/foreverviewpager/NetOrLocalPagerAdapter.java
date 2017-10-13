@@ -91,14 +91,22 @@ public class NetOrLocalPagerAdapter extends PagerAdapter{
             }
             if (objects[0].toString().contains("http")){//please add network premission
                 String url= String.valueOf(objects[0]);
-                try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setReadTimeout(8000);
-                    connection.setConnectTimeout(8000);
-                    return BitmapFactory.decodeStream(connection.getInputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (DiskLruCacheHelper.load(url)==null){
+                    try {
+                        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.setReadTimeout(8000);
+                        connection.setConnectTimeout(8000);
+                        Bitmap bitmap=BitmapFactory.decodeStream(connection.getInputStream());
+                        if (bitmap!=null){
+                            DiskLruCacheHelper.dump(bitmap,url);
+                        }
+                        return bitmap;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    return DiskLruCacheHelper.load(url);
                 }
             }else if (objects[0].toString().contains("emulated")){//please add  read and  write premissions
                 File file= new File(objects[0].toString());
