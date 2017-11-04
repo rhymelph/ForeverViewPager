@@ -43,7 +43,7 @@
     app:dot_select defalut While dot
 #### 7.Carousel interval?
     app:interval default 2000mi
-#### 7.ImageScaleType?
+#### 8.ImageScaleType?
     app:image_ScaleType default center_crop
     other fit_xy or fit_center or center
     
