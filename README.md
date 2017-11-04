@@ -71,3 +71,29 @@
                 }else {
     //to do
                 }
+### version:1.19
+#### 1.add onItemClickListener,you neet to put this in front of setAdapter()
+        forever_vp.setOnItemClickListener(new ForeverViewPager.OnItemClickListener() {
+            @Override
+            public void ClickItem(View view, int position) {
+                
+            }
+        });
+	
+#### 2.add PageScrollerListener,you neet to put this in front of setAdapter()
+        forever_vp.setPageScrollListener(new ForeverViewPager.PageScrollListener() {
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+        });
