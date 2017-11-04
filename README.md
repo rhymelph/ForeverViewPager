@@ -26,7 +26,7 @@
         app:dot_normal="@drawable/ic_fiber_black"
         app:dot_select="@drawable/ic_fiber_while"
         app:interval="3000"
-	app:image_ScaleType="fit_xy"
+        app:image_ScaleType="fit_xy"
         />
 #### 1.Do dot dots display? 
     app:dot_visible default true
