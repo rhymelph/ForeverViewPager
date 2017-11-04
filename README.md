@@ -26,6 +26,7 @@
         app:dot_normal="@drawable/ic_fiber_black"
         app:dot_select="@drawable/ic_fiber_while"
         app:interval="3000"
+	app:image_ScaleType="fit_xy"
         />
 #### 1.Do dot dots display? 
     app:dot_visible default true
@@ -42,7 +43,10 @@
     app:dot_select defalut While dot
 #### 7.Carousel interval?
     app:interval default 2000mi
- 
+#### 7.ImageScaleType?
+    app:image_ScaleType default center_crop
+    other fit_xy or fit_center or center
+    
  ### 2.load data
     forever_vp.setAdapter(parameter)
 #### parameter:
