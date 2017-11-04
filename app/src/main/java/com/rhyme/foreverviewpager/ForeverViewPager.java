@@ -43,8 +43,10 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
     private Context context;
     private int total = 0;
 
-    private int image_ScaleType=0;
+    private int image_ScaleType = 0;
 
+    private OnItemClickListener clickListener;
+    private PageScrollListener scrolllistener;
 
     private Handler handler = new Handler() {
         @Override
@@ -60,6 +62,14 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         initView(context);
     }
 
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public void setPageScrollListener(PageScrollListener scrolllistener) {
+        this.scrolllistener=scrolllistener;
+    }
+
     public ForeverViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForeverViewPager);
@@ -68,7 +78,7 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         int dot_select = a.getResourceId(R.styleable.ForeverViewPager_dot_select, R.drawable.ic_fiber_while);
         int dot_normal = a.getResourceId(R.styleable.ForeverViewPager_dot_normal, R.drawable.ic_fiber_black);
         align = a.getInt(R.styleable.ForeverViewPager_dot_align, ALIGN_CENTER);
-        image_ScaleType=a.getInt(R.styleable.ForeverViewPager_image_ScaleType,0);
+        image_ScaleType = a.getInt(R.styleable.ForeverViewPager_image_ScaleType, 0);
         interval = a.getInt(R.styleable.ForeverViewPager_interval, 2000);
         dot_size = a.getDimension(R.styleable.ForeverViewPager_dot_size, 50);
         dot_sel = context.getResources().getDrawable(dot_select);
@@ -141,12 +151,12 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
 
             view_pager.setOffscreenPageLimit(urls.size());
 
-            view_pager.setAdapter(new NetOrLocalPagerAdapter(context, urls.toArray(new Object[urls.size()]), resHolder, resError,image_ScaleType));
+            view_pager.setAdapter(new NetOrLocalPagerAdapter(context, urls.toArray(new Object[urls.size()]), resHolder, resError, image_ScaleType, clickListener));
             view_pager.setCurrentItem(1);
 
             Carousel();
         } else {
-            view_pager.setAdapter(new NetOrLocalPagerAdapter(context, list, resHolder, resError,image_ScaleType));
+            view_pager.setAdapter(new NetOrLocalPagerAdapter(context, list, resHolder, resError, image_ScaleType, clickListener));
         }
     }
 
@@ -173,14 +183,15 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
             viewList.add(0, last);
             view_pager.setOffscreenPageLimit(viewList.size());
 
-            view_pager.setAdapter(new ViewPagerAdapter(context, viewList));
+            view_pager.setAdapter(new ViewPagerAdapter(context, viewList, clickListener));
             view_pager.setCurrentItem(1);
 
             Carousel();
         } else {
-            view_pager.setAdapter(new ViewPagerAdapter(context, viewList));
+            view_pager.setAdapter(new ViewPagerAdapter(context, viewList, clickListener));
         }
     }
+
     /**
      * 初始化轮播
      */
@@ -190,6 +201,7 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
             handler.sendEmptyMessageDelayed(0, interval);
         }
     }
+
     /**
      * 网络图片
      */
@@ -211,12 +223,12 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
 
             view_pager.setOffscreenPageLimit(urls.size());
 
-            view_pager.setAdapter(new NetWorkPagerAdapter(context, urls.toArray(new String[urls.size()]), placeholder, errorholder,image_ScaleType));
+            view_pager.setAdapter(new NetWorkPagerAdapter(context, urls.toArray(new String[urls.size()]), placeholder, errorholder, image_ScaleType, clickListener));
             view_pager.setCurrentItem(1);
 
             Carousel();
         } else {
-            view_pager.setAdapter(new NetWorkPagerAdapter(context, urlList, placeholder, errorholder,image_ScaleType));
+            view_pager.setAdapter(new NetWorkPagerAdapter(context, urlList, placeholder, errorholder, image_ScaleType, clickListener));
         }
     }
 
@@ -244,14 +256,14 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
 
             view_pager.setOffscreenPageLimit(urls.size());
 
-            view_pager.setAdapter(new LocalPagerAdapter(context, urls.toArray(new Integer[urls.size()]),image_ScaleType));
+            view_pager.setAdapter(new LocalPagerAdapter(context, urls.toArray(new Integer[urls.size()]), image_ScaleType, clickListener));
             view_pager.setCurrentItem(1);
             Carousel();
         } else {
             for (int anIntList : intList) {
                 urls.add(anIntList);
             }
-            view_pager.setAdapter(new LocalPagerAdapter(context, urls.toArray(new Integer[urls.size()]),image_ScaleType));
+            view_pager.setAdapter(new LocalPagerAdapter(context, urls.toArray(new Integer[urls.size()]), image_ScaleType, clickListener));
         }
     }
 
@@ -262,30 +274,44 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
             if (total > 1) {
                 if (position == 0) {
                     view_pager.setCurrentItem(total, false);
-                    if (radio_group.getChildCount()!=0){
+                    if (radio_group.getChildCount() != 0) {
                         radio_group.getChildAt(total - 1).setBackgroundDrawable(dot_sel);
                     }
                 } else if (position == total + 1) {
                     view_pager.setCurrentItem(1, false);
-                    if (radio_group.getChildCount()!=0) {
+                    if (radio_group.getChildCount() != 0) {
                         radio_group.getChildAt(0).setBackgroundDrawable(dot_sel);
                     }
                 } else {
-                    if (radio_group.getChildCount()!=0) {
+                    if (radio_group.getChildCount() != 0) {
                         radio_group.getChildAt(position - 1).setBackgroundDrawable(dot_sel);
                     }
                 }
             }
         }
+        if (scrolllistener!=null){
+            if (position==0||position==total+1){
+                return;
+            }
+            scrolllistener.onPageScrolled(position-1,positionOffset,positionOffsetPixels);
+        }
     }
 
     @Override
     public void onPageSelected(int position) {
-
+        if (scrolllistener!=null){
+            if (position==0||position==total+1){
+                return;
+            }
+            scrolllistener.onPageSelected(position-1);
+        }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        if (scrolllistener!=null){
+            scrolllistener.onPageScrollStateChanged(state);
+        }
     }
 
     private void reset() {
@@ -308,5 +334,17 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
     public void start() {
         handler.removeMessages(0);
         handler.sendEmptyMessageDelayed(0, interval);
+    }
+
+    public interface OnItemClickListener {
+        void ClickItem(View view, int position);
+    }
+
+    public interface PageScrollListener {
+        void onPageScrollStateChanged(int state);
+
+        void onPageSelected(int position);
+
+        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
     }
 }

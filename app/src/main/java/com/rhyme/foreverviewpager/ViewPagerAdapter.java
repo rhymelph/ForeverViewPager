@@ -18,9 +18,11 @@ public class ViewPagerAdapter extends PagerAdapter{
     private static final String TAG="ViewPagerAdapter";
     private List<View> viewList;
     private Context context;
-    ViewPagerAdapter(Context context, List<View> viewList){
+    private ForeverViewPager.OnItemClickListener clickListener;
+    ViewPagerAdapter(Context context, List<View> viewList, ForeverViewPager.OnItemClickListener clickListener){
         this.viewList=viewList;
         this.context=context;
+        this.clickListener=clickListener;
     }
     @Override
     public int getCount() {
@@ -44,10 +46,28 @@ public class ViewPagerAdapter extends PagerAdapter{
 
                 }
             });
+            final int pos=position;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (clickListener!=null){
+                        clickListener.ClickItem(view,pos);
+                    }
+                }
+            });
             container.addView(view);
             return view;
         }else {
             View view=viewList.get(position);
+            final int pos=position-1;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (clickListener!=null){
+                        clickListener.ClickItem(view,pos);
+                    }
+                }
+            });
             container.addView(view);
             return view;
         }

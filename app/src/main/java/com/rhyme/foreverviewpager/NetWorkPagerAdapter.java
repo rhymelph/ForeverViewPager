@@ -25,13 +25,14 @@ public class NetWorkPagerAdapter extends PagerAdapter {
     private int placeholder;
     private int errorholder;
     private int type;
-
-    NetWorkPagerAdapter(Context context, String[] images, int placeholder, int errorholder, int type) {
+    private ForeverViewPager.OnItemClickListener clickListener=null;
+    NetWorkPagerAdapter(Context context, String[] images, int placeholder, int errorholder, int type, ForeverViewPager.OnItemClickListener clickListener) {
         this.images = images;
         this.context = context;
         this.errorholder = errorholder;
         this.placeholder = placeholder;
         this.type = type;
+        this.clickListener=clickListener;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class NetWorkPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView = new ImageView(context);
+        final ImageView imageView = new ImageView(context);
         switch (type) {
             case 0:
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -61,6 +62,15 @@ public class NetWorkPagerAdapter extends PagerAdapter {
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 break;
         }
+        final int pos=position-1;
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (clickListener!=null){
+                    clickListener.ClickItem(imageView,pos);
+                }
+            }
+        });
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         container.addView(imageView);
         new LoadImageAsync(imageView, placeholder, errorholder).executeOnExecutor(Executors.newCachedThreadPool(), images[position]);

@@ -28,13 +28,15 @@ public class NetOrLocalPagerAdapter extends PagerAdapter {
     private int placeholder;
     private int errorholder;
     private int type;
+    private ForeverViewPager.OnItemClickListener clickListener=null;
 
-    NetOrLocalPagerAdapter(Context context, Object[] images, int placeholder, int errorholder, int type) {
+    NetOrLocalPagerAdapter(Context context, Object[] images, int placeholder, int errorholder, int type, ForeverViewPager.OnItemClickListener clickListener) {
         this.images = images;
         this.context = context;
         this.errorholder = errorholder;
         this.placeholder = placeholder;
         this.type = type;
+        this.clickListener=clickListener;
     }
 
     @Override
@@ -48,8 +50,8 @@ public class NetOrLocalPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView = new ImageView(context);
+    public Object instantiateItem(ViewGroup container, final int position) {
+        final ImageView imageView = new ImageView(context);
 
         switch (type) {
             case 0:
@@ -65,6 +67,15 @@ public class NetOrLocalPagerAdapter extends PagerAdapter {
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 break;
         }
+        final int pos=position-1;
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (clickListener!=null){
+                    clickListener.ClickItem(imageView,pos);
+                }
+            }
+        });
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         container.addView(imageView);
         Object item = images[position];

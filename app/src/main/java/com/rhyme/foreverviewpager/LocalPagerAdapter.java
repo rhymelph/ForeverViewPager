@@ -15,11 +15,12 @@ public class LocalPagerAdapter extends PagerAdapter{
     private Integer[] images;
     private Context context;
     private int type;
-
-    LocalPagerAdapter(Context context, Integer[] images,int type){
+    private ForeverViewPager.OnItemClickListener clickListener;
+    LocalPagerAdapter(Context context, Integer[] images, int type, ForeverViewPager.OnItemClickListener clickListener){
         this.images=images;
         this.context=context;
         this.type=type;
+        this.clickListener=clickListener;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class LocalPagerAdapter extends PagerAdapter{
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView=new ImageView(context);
+        final ImageView imageView=new ImageView(context);
         imageView.setImageResource(images[position]);
         switch (type){
             case 0:
@@ -50,6 +51,15 @@ public class LocalPagerAdapter extends PagerAdapter{
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 break;
         }
+        final int pos=position-1;
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (clickListener!=null){
+                    clickListener.ClickItem(imageView,pos);
+                }
+            }
+        });
         container.addView(imageView);
         return imageView;
     }
