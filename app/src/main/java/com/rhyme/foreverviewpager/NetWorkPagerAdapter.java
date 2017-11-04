@@ -16,37 +16,57 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by rhyme on 2017/9/30.
- * 网络加载图片
+ * 轮播网络加载图片
  */
 
-public class NetWorkPagerAdapter extends PagerAdapter{
+public class NetWorkPagerAdapter extends PagerAdapter {
     private String[] images;
     private Context context;
-    private  int placeholder;
-    private  int errorholder;
-    NetWorkPagerAdapter(Context context, String[] images,   int placeholder,   int errorholder){
-        this.images=images;
-        this.context=context;
-        this.errorholder=errorholder;
-        this.placeholder=placeholder;
+    private int placeholder;
+    private int errorholder;
+    private int type;
+
+    NetWorkPagerAdapter(Context context, String[] images, int placeholder, int errorholder, int type) {
+        this.images = images;
+        this.context = context;
+        this.errorholder = errorholder;
+        this.placeholder = placeholder;
+        this.type = type;
     }
+
     @Override
     public int getCount() {
         return images.length;
     }
+
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        switch (type) {
+            case 0:
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                break;
+            case 1:
+                imageView.setScaleType(ImageView.ScaleType.CENTER);
+                break;
+            case 2:
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                break;
+            case 3:
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                break;
+        }
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         container.addView(imageView);
         new LoadImageAsync(imageView, placeholder, errorholder).executeOnExecutor(Executors.newCachedThreadPool(), images[position]);
         return imageView;
     }
+
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
@@ -74,24 +94,28 @@ public class NetWorkPagerAdapter extends PagerAdapter{
 
         @Override
         protected Bitmap doInBackground(String... strings) {
-            if (isCancelled()){
+            if (isCancelled()) {
                 return null;
             }
-            if (DiskLruCacheHelper.load(strings[0])==null){
+            if (DiskLruCacheHelper.load(strings[0]) == null) {
                 try {
                     HttpURLConnection connection = (HttpURLConnection) new URL(strings[0]).openConnection();
                     connection.setRequestMethod("GET");
                     connection.setReadTimeout(8000);
                     connection.setConnectTimeout(8000);
-                    Bitmap bitmap=BitmapFactory.decodeStream(connection.getInputStream());
-                    if (bitmap!=null){
-                        DiskLruCacheHelper.dump(bitmap,strings[0]);
+                    Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+
+                    int bitmapSize=DigesterUtil.getBitmapSize(bitmap);
+                    if (bitmapSize>500){
+                    }
+                    if (bitmap != null) {
+                        DiskLruCacheHelper.dump(bitmap, strings[0]);
                     }
                     return bitmap;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }else {
+            } else {
                 return DiskLruCacheHelper.load(strings[0]);
             }
             return null;
@@ -100,7 +124,7 @@ public class NetWorkPagerAdapter extends PagerAdapter{
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            if (isCancelled()){
+            if (isCancelled()) {
                 return;
             }
             if (bitmap != null) {

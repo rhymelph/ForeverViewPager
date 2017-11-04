@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Created by rhyme on 2017/9/30.
- * 本地加载图片
+ * 轮播加载View
  */
 
 public class ViewPagerAdapter extends PagerAdapter{

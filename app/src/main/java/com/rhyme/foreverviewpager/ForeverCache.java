@@ -14,6 +14,7 @@ public class ForeverCache {
      * 新建一个缓存
      */
     public static void initCache(Context context, int appVersion) {
+        LruCacheHelper.InitLruCache();
         DiskLruCacheHelper.openCache(context, appVersion, LOCAL_CACHE_SIZE_LIMIT);
     }
 
@@ -22,6 +23,7 @@ public class ForeverCache {
      */
     public static void initCache(DiskLruCache diskLruCache) {
         DiskLruCacheHelper.openCache(diskLruCache);
+        LruCacheHelper.InitLruCache();
     }
 
     /**
@@ -29,6 +31,7 @@ public class ForeverCache {
      */
     public static void clearCache() {
         DiskLruCacheHelper.clearCache();
+        LruCacheHelper.clear();
     }
 
     /**

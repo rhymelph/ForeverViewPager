@@ -14,6 +14,12 @@
             <enum name="right" value="2"/>
             <enum name="center" value="3"/>
         </attr>
+        <attr name="image_ScaleType" format="enum">
+            <enum name="center_crop" value="0" />
+            <enum name="center" value="1"/>
+            <enum name="fit_center" value="2"/>
+            <enum name="fit_xy" value="3"/>
+        </attr>
         <!--是否显示小圆点 默认显示-->
         <attr name="dot_visible" format="boolean"/>
         <!--轮播时间 默认2000毫秒-->

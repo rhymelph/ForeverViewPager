@@ -14,9 +14,12 @@ import android.widget.ImageView;
 public class LocalPagerAdapter extends PagerAdapter{
     private Integer[] images;
     private Context context;
-    LocalPagerAdapter(Context context, Integer[] images){
+    private int type;
+
+    LocalPagerAdapter(Context context, Integer[] images,int type){
         this.images=images;
         this.context=context;
+        this.type=type;
     }
 
     @Override
@@ -33,7 +36,20 @@ public class LocalPagerAdapter extends PagerAdapter{
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView=new ImageView(context);
         imageView.setImageResource(images[position]);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        switch (type){
+            case 0:
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                break;
+            case 1:
+                imageView.setScaleType(ImageView.ScaleType.CENTER);
+                break;
+            case 2:
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                break;
+            case 3:
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                break;
+        }
         container.addView(imageView);
         return imageView;
     }
