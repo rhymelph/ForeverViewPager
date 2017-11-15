@@ -336,6 +336,10 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         handler.sendEmptyMessageDelayed(0, interval);
     }
 
+    public void setPageTransFormer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer){
+        view_pager.setPageTransformer(reverseDrawingOrder,transformer);
+    }
+
     public interface OnItemClickListener {
         void ClickItem(View view, int position);
     }

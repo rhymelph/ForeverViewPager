@@ -1,10 +1,14 @@
 package com.rhyme.foreverviewpager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import java.io.InputStream;
 
 /**
  * Created by rhyme on 2017/9/30.
@@ -36,7 +40,13 @@ public class LocalPagerAdapter extends PagerAdapter{
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         final ImageView imageView=new ImageView(context);
-        imageView.setImageResource(images[position]);
+        BitmapFactory.Options options=new BitmapFactory.Options();
+        options.inPurgeable=true;
+        options.inInputShareable=true;
+        options.inPreferredConfig= Bitmap.Config.RGB_565;
+        InputStream is=imageView.getContext().getResources().openRawResource(images[position]);
+
+        imageView.setImageBitmap(BitmapFactory.decodeStream(is,null,options));
         switch (type){
             case 0:
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

@@ -1,5 +1,6 @@
 package com.rhyme.foreverviewpager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -88,6 +89,7 @@ public class NetWorkPagerAdapter extends PagerAdapter {
     private static class LoadImageAsync extends AsyncTask<String, Integer, Bitmap> {
         private int placeHolder;
         private int errorHolder;
+        @SuppressLint("StaticFieldLeak")
         private ImageView image;
 
         private LoadImageAsync(ImageView image, int placeHolder, int errorHolder) {
@@ -107,28 +109,33 @@ public class NetWorkPagerAdapter extends PagerAdapter {
             if (isCancelled()) {
                 return null;
             }
-            if (DiskLruCacheHelper.load(strings[0]) == null) {
-                try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL(strings[0]).openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setReadTimeout(8000);
-                    connection.setConnectTimeout(8000);
-                    Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+            Bitmap bitmap=LruCacheHelper.load(strings[0]);
+            if (bitmap==null){
+                bitmap=DiskLruCacheHelper.load(strings[0]);
+                if (bitmap == null) {
+                    try {
+                        BitmapFactory.Options options=new BitmapFactory.Options();
+                        options.inPurgeable=true;
+                        options.inInputShareable=true;
+                        options.inPreferredConfig= Bitmap.Config.RGB_565;
 
-                    int bitmapSize=DigesterUtil.getBitmapSize(bitmap);
-                    if (bitmapSize>500){
+                        HttpURLConnection connection = (HttpURLConnection) new URL(strings[0]).openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.setReadTimeout(8000);
+                        connection.setConnectTimeout(8000);
+                        bitmap = BitmapFactory.decodeStream(connection.getInputStream(),null,options);
+                        if (bitmap != null) {
+//                            int bitmapSize=DigesterUtil.getBitmapSize(bitmap);
+                            LruCacheHelper.dump(strings[0],bitmap);
+                            DiskLruCacheHelper.dump(bitmap, strings[0]);
+                        }
+                        return bitmap;
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    if (bitmap != null) {
-                        DiskLruCacheHelper.dump(bitmap, strings[0]);
-                    }
-                    return bitmap;
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            } else {
-                return DiskLruCacheHelper.load(strings[0]);
             }
-            return null;
+            return bitmap;
         }
 
         @Override

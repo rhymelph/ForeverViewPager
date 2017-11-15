@@ -156,6 +156,10 @@ public class NetOrLocalPagerAdapter extends PagerAdapter {
                             if (fis.available() > 1024 * 1024) {//大于1m自动压缩
                                 BitmapFactory.Options options = new BitmapFactory.Options();
                                 options.inSampleSize = fis.available()/(1024*1024);
+                                options.inPurgeable=true;
+                                options.inInputShareable=true;
+                                options.inPreferredConfig= Bitmap.Config.RGB_565;
+
                                 bitmap = BitmapFactory.decodeFile(url, options);
                                 if (bitmap != null) {
                                     LruCacheHelper.dump(url,bitmap);

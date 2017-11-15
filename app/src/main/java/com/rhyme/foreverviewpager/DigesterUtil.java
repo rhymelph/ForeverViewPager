@@ -1,9 +1,5 @@
 package com.rhyme.foreverviewpager;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -35,20 +31,5 @@ public class DigesterUtil {
         }
 
         return hash;
-    }
-
-    /*
-     * @return 返回字节
-     */
-    public static int getBitmapSize(Bitmap bitmap) {
-        return bitmap.getRowBytes() * bitmap.getHeight();
-    }
-
-    public static Bitmap qualityCompress(int quality, Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
-        byte[] bytes = baos.toByteArray();
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
     }
 }
