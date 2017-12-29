@@ -38,11 +38,11 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
     private boolean dot_visible = true;
     private boolean carousel = true;
     private int interval = 2000;
+    private int sliding_duration=1000;
     private Drawable dot_sel;
     private Drawable dot_nor;
     private Context context;
     private int total = 0;
-
     private int image_ScaleType = 0;
 
     private OnItemClickListener clickListener;
@@ -81,6 +81,8 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         image_ScaleType = a.getInt(R.styleable.ForeverViewPager_image_ScaleType, 0);
         interval = a.getInt(R.styleable.ForeverViewPager_interval, 2000);
         dot_size = a.getDimension(R.styleable.ForeverViewPager_dot_size, 50);
+        sliding_duration=a.getInt(R.styleable.ForeverViewPager_sliding,1000);
+
         dot_sel = context.getResources().getDrawable(dot_select);
         dot_nor = context.getResources().getDrawable(dot_normal);
         a.recycle();
@@ -92,6 +94,9 @@ public class ForeverViewPager extends RelativeLayout implements ViewPager.OnPage
         View view = inflate(context, R.layout.forever_layout, null);
         view_pager = view.findViewById(R.id.rhy_viewpager);
         radio_group = view.findViewById(R.id.rhy_rgroup);
+        ViewPagerScroller viewPagerScroller=new ViewPagerScroller(getContext());
+        viewPagerScroller.setSlidingDuration(sliding_duration);
+        viewPagerScroller.initViewPagerScroll(view_pager);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         addView(view);
         view_pager.addOnPageChangeListener(this);

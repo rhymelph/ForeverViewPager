@@ -26,5 +26,7 @@
         <attr name="interval" format="integer"/>
         <!--是否轮播 默认轮播-->
         <attr name="carousel" format="boolean"/>
+        <!--滑动速度 默认1000毫秒-->
+        <attr name="sliding" format="integer"/>
     </declare-styleable>
 </resources>
