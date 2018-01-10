@@ -1,5 +1,6 @@
 # ForeverViewPager[![](https://jitpack.io/v/rhylme/ForeverViewPager.svg)](https://jitpack.io/#rhylme/ForeverViewPager)
-[demo](https://fir.im/y5z7)
+[demo](https://github.com/rhylme/ForeverViewPager/blob/master/app/demo.apk?raw=true)
+[![demo](https://github.com/rhylme/ForeverViewPager/blob/master/app/1.gif?raw=true)]
 ## How to use
 ### 1.gradle
 #### Step 1. Add the JitPack repository to your build file
